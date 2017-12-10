@@ -2,23 +2,427 @@
 <html><head>
   <title>D Flip-Flop Calculator - by Johan Cornelissen</title>
   <style>
+	  * {
+	    font: 13px 'Segoe UI', sans-serif;
+	  }
+
+	  i {
+	    font: italic 13px Georgia, serif;
+	  }
+
+	  .symbol {
+	    font: 13px Georgia, serif;
+	  }
+
+	  sup {
+	    vertical-align: top;
+	    font-size: 75%;
+	  }
+
+	  body, .input {
+	    text-align: center;
+	    background: white;
+	    margin: 30px;
+	  }
+	  
+	  p.indented {
+	      margin-left: 30px ;
+	  }
+	  
+	  .padded {
+	      margin: auto;
+	      padding: 0 35px;
+	      max-width: 900px
+	  }
+	  
+	  .indented label {
+	      display: block
+	  }
+
+	  .center {
+	    text-align: center;
+	  }
+
+	  .credit {
+	    margin-top: 100px;
+	  }
+
+	  canvas {
+	    margin: 30px auto;
+	    display: block;
+	  }
+
+	  h1 {
+	    font-size: 40px;
+	  }
+
+	  .input, #input {
+	    font-size: 25px;
+	  }
+
+	  #input {
+	    width: 730px;
+	  }
+
+	  .error {
+	    color: red;
+	    font-weight: bold;
+	    font-size: 200%;
+	    display: block;
+	    margin: 50px 0;
+	  }
+	  
+	  input[type=checkbox], input[type=radio] {
+	      height: 15px;
+	      background: #7F7F7F;
+	      width: 15px
+	  }
+	  
+	  label {
+	      display: block;
+		  padding-left: 15px;
+		  text-indent: -15px;
+	  }
+
+	  input[type=checkbox]:focus, input[type=radio]:focus {
+	      background: #FFF;
+	      outline: 0
+	  }
+
+	  input[type=checkbox] {
+	      -webkit-appearance: initial;
+	      border-radius: 3px;
+	      margin-right: 5px
+	  }
+
+	  input[type=checkbox]:checked:after {
+	      position: relative;
+	      top: 2px;
+	      left: 1px;
+	      content: '';
+	      width: 10px;
+	      height: 5px;
+	      display: block;
+	      border-left: 3px solid #1F1F1F;
+	      border-bottom: 3px solid #1F1F1F;
+	      -webkit-transform: rotate(-55deg);
+	      -ms-transform: rotate(-55deg);
+	      transform: rotate(-55deg)
+	  }
   </style>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+ 
+	<style>
+	#feedback { font-size: 1.4em; }
+	.ui-selecting { background: #FECA40; }
+	.ui-selected { background: #F39814; color: white; }
+	.selectable_style { list-style-type: none; margin: 0; padding: 0; width: 450px; }
+	li { 
+		margin: 0px; 
+		padding: 1px; 
+		float: left; 
+		width: 20px; 
+		height: 20px; 
+		font-size: 1em; 
+		text-align: center;
+		border: 1px solid black;
+	 }
+	 ol {
+      	margin: auto;
+      	padding: 0 35px;
+      	max-width: 900px
+	 }
+	</style>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+		
+	var reset_value = new Array;
+	var preset_value = new Array;
+	var load_en_value = new Array;
+	var d_value = new Array;	
+		
+	$( function() {
+	  $( "#selectable_reset" ).selectable({
+         selected: function() {
+			reset_value = [];
+            $( ".ui-selected", this ).each(function() {
+               var index = $( "#selectable_reset li" ).index( this );
+			   reset_value.push(( index + 1 ));
+            });
+			WaveDrom.ProcessAll();
+         }
+      });
+	} );
+	
+	$( function() {
+	  $( "#selectable_preset" ).selectable({
+         selected: function() {
+			preset_value = [];
+            $( ".ui-selected", this ).each(function() {
+               var index = $( "#selectable_preset li" ).index( this );
+			   preset_value.push(( index + 1 ));
+            });
+			WaveDrom.ProcessAll();
+         }
+      });
+	} );
+	
+	$( function() {
+	  $( "#selectable_load_en" ).selectable({
+         selected: function() {
+			reset_value = [];
+            $( ".ui-selected", this ).each(function() {
+               var index = $( "#selectable_load_en li" ).index( this );
+			   load_en_value.push(( index + 1 ));
+            });
+			WaveDrom.ProcessAll();
+         }
+      });
+	} );
+	
+	$( function() {
+	  $( "#selectable_d" ).selectable({
+         selected: function() {
+			preset_value = [];
+            $( ".ui-selected", this ).each(function() {
+               var index = $( "#selectable_d li" ).index( this );
+			   d_value.push(( index + 1 ));
+            });
+			WaveDrom.ProcessAll();
+         }
+      });
+	} );
+	</script>
+  
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/1.6.2/skins/default.js" type="text/javascript"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/1.6.2/wavedrom.min.js" type="text/javascript"></script>
-  
-  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/1.6.2/wavedrom.min.js" type="text/javascript"></script>  
   <script>
   </script>
 </head>
 <body onload="WaveDrom.ProcessAll()">
-<script type="WaveDrom">
-{ signal : [
-  { name: "clk",  wave: "p......" },
-  { name: "reset_n",  wave: "h.....l" },
-  { name: "preset_n",  wave: "h..l.h." },
-  { name: "load_en",  wave: "l.h...." },
-  { name: "D", wave: "l.h..l." },
-  { name: "Q", wave: "l.h..l." },
-]}
+<div class="padded">
+    <h1>D-Flip-Flop Timing Diagram Calculator</h1>
+    <p>This page demonstrates .....</p>
+<p id="controls" class="indented">
+	<label>
+		<input id="reset_checkbox" type="checkbox" name="reset_n" onclick="onClickHandler(this);" >
+		Use "reset_n" Signal
+	</label>
+	<label>
+		<input id="preset_checkbox" type="checkbox" name="preset_n" onclick="onClickHandler(this);" >
+		Use "preset_n" Signal
+	</label>
+	<label>
+		<input id="load_enable_checkbox" type="checkbox" name="load_en" onclick="onClickHandler(this);">
+		Use "load_en" Signal
+	</label>	
+</p>
+<br>
+
+<div style="float: middle;">
+<p style="display:inline-block;">Reset_n:</p><span style="display:inline-block; width: 2px;"></span>
+<ol id="selectable_reset" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: right; display:inline-block;">
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+</ol>
+
+<br>
+<p style="display:inline-block;">Preset_n:</p>
+<ol id="selectable_preset" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+</ol>
+
+<br>
+<p style="display:inline-block;">Load_en:</p>
+<ol id="selectable_load_en" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+</ol>
+
+<br>
+<p style="display:inline-block;">D:</p><span style="display:inline-block; width: 38px;"></span>
+<ol id="selectable_d" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+  <li class="ui-state-default"></li>
+</ol>
+</div>
+
+</div>
+<script>
+function onClickHandler(checkbox){
+	WaveDrom.ProcessAll();
+}
+function display(msg) {
+  var p = document.createElement('p');
+  p.innerHTML = msg;
+  document.body.appendChild(p);
+}
 </script>
+
+<br>
+<br>
+<br>
+<script type="WaveDrom">
+(function test() {
+  var arr = [];
+  
+  
+  arr.push({ name: "clk",  wave: "p.............." },);
+  
+  if (document.getElementById("reset_checkbox").checked) {
+	  var resetString = "";
+	  var lastType = "";
+	  for (var i = 1; i <= 15; i++) {
+		  if (reset_value.indexOf(i) != -1) {
+			  if (lastType == "" || lastType == "l") {
+			  	resetString += "h";
+				lastType = "h";
+			  } else {
+				resetString += ".";
+			  }
+		  } else {
+			  if (lastType == "" || lastType == "h") {
+			  	resetString += "l";
+				lastType = "l";
+			  } else {
+				resetString += ".";
+			  }
+		  }  
+	  }
+	  arr.push({ name: "reset_n",  wave: resetString },);
+  }
+  if (document.getElementById("preset_checkbox").checked) {
+	  var presetString = "";
+	  var lastType = "";
+	  for (var i = 1; i <= 15; i++) {
+		  if (preset_value.indexOf(i) != -1) {
+			  if (lastType == "" || lastType == "l") {
+			  	presetString += "h";
+				lastType = "h";
+			  } else {
+				presetString += ".";
+			  }
+		  } else {
+			  if (lastType == "" || lastType == "h") {
+			  	presetString += "l";
+				lastType = "l";
+			  } else {
+				presetString += ".";
+			  }
+		  }  
+	  }
+	  arr.push({ name: "preset_n",  wave: presetString },);
+  }
+  if (document.getElementById("load_enable_checkbox").checked) {
+	  var loadEnString = "";
+	  var lastType = "";
+	  for (var i = 1; i <= 15; i++) {
+		  if (load_en_value.indexOf(i) != -1) {
+			  if (lastType == "" || lastType == "l") {
+			  	loadEnString += "h";
+				lastType = "h";
+			  } else {
+				loadEnString += ".";
+			  }
+		  } else {
+			  if (lastType == "" || lastType == "h") {
+			  	loadEnString += "l";
+				lastType = "l";
+			  } else {
+				loadEnString += ".";
+			  }
+		  }  
+	  }
+	  arr.push({ name: "load_en",  wave: loadEnString },);
+  }
+  
+  var dString = "";
+  var lastType = "";
+  for (var i = 1; i <= 15; i++) {
+	  if (d_value.indexOf(i) != -1) {
+		  if (lastType == "" || lastType == "l") {
+		  	dString += "h";
+			lastType = "h";
+		  } else {
+			dString += ".";
+		  }
+	  } else {
+		  if (lastType == "" || lastType == "h") {
+		  	dString += "l";
+			lastType = "l";
+		  } else {
+			dString += ".";
+		  }
+	  }  
+  }
+  arr.push({ name: "D",  wave: dString },);
+  
+  arr.push({ name: "Q", wave: "l.h..l." },);
+  
+  return {signal: 
+    arr,
+	foot:{
+	  text:'Time (ns)',
+	  tick:0
+	},
+  };
+})(5, 16)
+</script>
+  <p class="center credit">Demo made by <a href="http://www.johancornelissen.com/">Johan Cornelissen</a></p>
 </body></html>
