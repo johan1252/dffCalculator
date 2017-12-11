@@ -109,6 +109,13 @@
 	      -ms-transform: rotate(-55deg);
 	      transform: rotate(-55deg)
 	  }
+	  .shrink{
+	  -webkit-transform:scale(0.7);
+	  -moz-transform:scale(0.7);
+	  -ms-transform:scale(0.7);
+	  transform:scale(0.7);
+	  }
+	  
   </style>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
@@ -122,7 +129,7 @@
 		margin: 0px; 
 		padding: 1px; 
 		float: left; 
-		width: 20px; 
+		width: 10px; 
 		height: 20px; 
 		font-size: 1em; 
 		text-align: center;
@@ -141,7 +148,8 @@
 	var reset_value = new Array;
 	var preset_value = new Array;
 	var load_en_value = new Array;
-	var d_value = new Array;	
+	var d_value = new Array;
+	var num_cycles = 30;	
 		
 	$( function() {
 	  $( "#selectable_reset" ).selectable({
@@ -172,7 +180,7 @@
 	$( function() {
 	  $( "#selectable_load_en" ).selectable({
          selected: function() {
-			reset_value = [];
+			load_en_value = [];
             $( ".ui-selected", this ).each(function() {
                var index = $( "#selectable_load_en li" ).index( this );
 			   load_en_value.push(( index + 1 ));
@@ -185,7 +193,7 @@
 	$( function() {
 	  $( "#selectable_d" ).selectable({
          selected: function() {
-			preset_value = [];
+			d_value = [];
             $( ".ui-selected", this ).each(function() {
                var index = $( "#selectable_d li" ).index( this );
 			   d_value.push(( index + 1 ));
@@ -225,86 +233,34 @@
 <div style="float: middle;">
 <p style="display:inline-block;">Reset_n:</p><span style="display:inline-block; width: 2px;"></span>
 <ol id="selectable_reset" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: right; display:inline-block;">
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
 </ol>
 
 <br>
 <p style="display:inline-block;">Preset_n:</p>
 <ol id="selectable_preset" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
 </ol>
 
 <br>
 <p style="display:inline-block;">Load_en:</p>
 <ol id="selectable_load_en" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
 </ol>
 
 <br>
 <p style="display:inline-block;">D:</p><span style="display:inline-block; width: 38px;"></span>
 <ol id="selectable_d" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
-  <li class="ui-state-default"></li>
 </ol>
 </div>
 
 </div>
 <script>
+for(i = 0; i<num_cycles ;i++)
+{
+	document.getElementById("selectable_reset").innerHTML += "<li class=\"ui-state-default\"></li>";
+	document.getElementById("selectable_preset").innerHTML += "<li class=\"ui-state-default\"></li>";
+	document.getElementById("selectable_load_en").innerHTML += "<li class=\"ui-state-default\"></li>";
+    document.getElementById("selectable_d").innerHTML += "<li class=\"ui-state-default\"></li>";
+}	
+	
 function onClickHandler(checkbox){
 	WaveDrom.ProcessAll();
 }
@@ -313,22 +269,31 @@ function display(msg) {
   p.innerHTML = msg;
   document.body.appendChild(p);
 }
+
+//Example of how to add shrink
+$('#shrinkMe').click(function(){ // or any other event
+ $(this).addClass('shrink');
+});
+
+function rising_edge() {
+	return true;
+}
 </script>
 
 <br>
 <br>
 <br>
+<div id="shrinkMe" class="shrink">
 <script type="WaveDrom">
 (function test() {
   var arr = [];
-  
-  
-  arr.push({ name: "clk",  wave: "p.............." },);
+   
+  arr.push({ name: "clk",  wave: "p..............", period: 2 },);
   
   if (document.getElementById("reset_checkbox").checked) {
 	  var resetString = "";
 	  var lastType = "";
-	  for (var i = 1; i <= 15; i++) {
+	  for (var i = 1; i <= num_cycles; i++) {
 		  if (reset_value.indexOf(i) != -1) {
 			  if (lastType == "" || lastType == "l") {
 			  	resetString += "h";
@@ -350,7 +315,7 @@ function display(msg) {
   if (document.getElementById("preset_checkbox").checked) {
 	  var presetString = "";
 	  var lastType = "";
-	  for (var i = 1; i <= 15; i++) {
+	  for (var i = 1; i <= num_cycles; i++) {
 		  if (preset_value.indexOf(i) != -1) {
 			  if (lastType == "" || lastType == "l") {
 			  	presetString += "h";
@@ -372,7 +337,7 @@ function display(msg) {
   if (document.getElementById("load_enable_checkbox").checked) {
 	  var loadEnString = "";
 	  var lastType = "";
-	  for (var i = 1; i <= 15; i++) {
+	  for (var i = 1; i <= num_cycles; i++) {
 		  if (load_en_value.indexOf(i) != -1) {
 			  if (lastType == "" || lastType == "l") {
 			  	loadEnString += "h";
@@ -394,7 +359,7 @@ function display(msg) {
   
   var dString = "";
   var lastType = "";
-  for (var i = 1; i <= 15; i++) {
+  for (var i = 1; i <= num_cycles; i++) {
 	  if (d_value.indexOf(i) != -1) {
 		  if (lastType == "" || lastType == "l") {
 		  	dString += "h";
@@ -413,7 +378,88 @@ function display(msg) {
   }
   arr.push({ name: "D",  wave: dString },);
   
-  arr.push({ name: "Q", wave: "l.h..l." },);
+  
+  var qString = "";
+  var lastType = "";
+  for (var i = 1; i <= num_cycles; i++) {
+	  if (document.getElementById("reset_checkbox").checked && reset_value.indexOf(i) == -1) {
+		  //Remember reset is active low, and makes Q->0 if low.
+		  //asynchronous!
+		  if (lastType == "" || lastType == "h") {
+		  	qString += "l";
+			lastType = "l";
+		  } else {
+			qString += ".";
+		  }
+	  }
+	  else if (document.getElementById("preset_checkbox").checked && preset_value.indexOf(i) == -1) {
+		  if (lastType == "" || lastType == "l") {
+			//Remember preset is active low, and makes Q->1 if low.
+			//asynchronous!
+		  	qString += "h";
+			lastType = "h";
+		  } else {
+			qString += ".";
+		  }
+	  } else if (rising_edge()) {
+		  //Synchronous!
+		  
+		  if (document.getElementById("load_enable_checkbox").checked) {
+			  //If using load enable (checkbox checked)
+			  
+			  if (load_en_value.indexOf(i) != -1) {
+				  //If load enable is 1.
+				  
+				  if (d_value.indexOf(i) != -1) {
+					  // If using enable, and enable = 1, and d=1, then make Q=1.
+					  if (lastType == "" || lastType == "l") {
+					  	qString += "h";
+						lastType = "h";
+					  } else {
+						qString += ".";
+					  }
+				  } else {
+					  // if using enable, and enable =1, and d=0, then make Q=0
+					  if (lastType == "" || lastType == "h") {
+					  	qString += "l";
+						lastType = "l";
+					  } else {
+						qString += ".";
+					  }
+				  }
+				  
+			  } else {
+				  //if load enable is 0. Use stored state
+				  qString += '.';		  
+			  }
+		  } else {
+			  //If not using load enable 
+			  
+			  if (d_value.indexOf(i) != -1) {
+				  // If NOT using enable, and d=1, then make Q=1.
+				  if (lastType == "" || lastType == "l") {
+				  	qString += "h";
+					lastType = "h";
+				  } else {
+					qString += ".";
+				  }
+			  } else {
+				  // if NOT using enable, and d=0, then make Q=0
+				  if (lastType == "" || lastType == "h") {
+				  	qString += "l";
+					lastType = "l";
+				  } else {
+					qString += ".";
+				  }
+			  }
+		  }
+	  } 
+	  else {
+		//use stored state if not on rising edge of clock. 
+	  	qString += ".";	  
+	  }
+  }
+  arr.push({ name: "Q", wave: qString },);
   
   return {signal: 
     arr,
@@ -424,5 +470,6 @@ function display(msg) {
   };
 })(5, 16)
 </script>
+</div>
   <p class="center credit">Demo made by <a href="http://www.johancornelissen.com/">Johan Cornelissen</a></p>
 </body></html>
