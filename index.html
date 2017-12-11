@@ -210,42 +210,53 @@
   <script>
   </script>
 </head>
-<body onload="WaveDrom.ProcessAll()">
+<body onload="WaveDrom.ProcessAll();populateGrid();showHideGrids();">
 <div class="padded">
     <h1>D-Flip-Flop Timing Diagram Calculator</h1>
-    <p>This page demonstrates .....</p>
+    <p>Use the controls below to become familiar with a postive edge triggered D flip flop. Reset, preset, and load_enable signals can be added dynamically using the checkboxes below. Timing diagram at the bottom of the page should ALWAYS reflect a correct waveform. Note, the tool is still in beta and may have bugs, please contact me if this is the case (<a href="mailto:12jc144@queensu.ca?Subject=Bug%20in%20DffCalculator" target="_top">12jc144@queensu.ca</a>).</p>
+	
 <p id="controls" class="indented">
+	<span style="font-weight:bold">Control Signals:</span>
 	<label>
-		<input id="reset_checkbox" type="checkbox" name="reset_n" onclick="onClickHandler(this);" >
+		<input id="reset_checkbox" type="checkbox" name="reset_n" onclick="onClickHandler(this);showHideGrids();" >
 		Use "reset_n" Signal
 	</label>
 	<label>
-		<input id="preset_checkbox" type="checkbox" name="preset_n" onclick="onClickHandler(this);" >
+		<input id="preset_checkbox" type="checkbox" name="preset_n" onclick="onClickHandler(this);showHideGrids();" >
 		Use "preset_n" Signal
 	</label>
 	<label>
-		<input id="load_enable_checkbox" type="checkbox" name="load_en" onclick="onClickHandler(this);">
+		<input id="load_enable_checkbox" type="checkbox" name="load_en" onclick="onClickHandler(this);showHideGrids();">
 		Use "load_en" Signal
 	</label>	
 </p>
-<br>
+
 
 <div style="float: middle;">
-<p style="display:inline-block;">Reset_n:</p><span style="display:inline-block; width: 2px;"></span>
+<span style="font-weight:bold">Signal Input Defintions:</span> <br>
+<span style="color: red;">Use CTRL+click (and drag) to select multiple regions per signal.</span> <br>
+
+<div id="reset_container">
+<p style="display:inline-block;" id="reset_label" >Reset_n:</p><span style="display:inline-block; width: 2px;"></span>
 <ol id="selectable_reset" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: right; display:inline-block;">
 </ol>
-
 <br>
-<p style="display:inline-block;">Preset_n:</p>
+</div>
+
+<div id="preset_container">
+<p style="display:inline-block;" id="preset_label" >Preset_n:</p>
 <ol id="selectable_preset" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
 </ol>
-
 <br>
-<p style="display:inline-block;">Load_en:</p>
+</div>
+
+<div id="load_en_container">
+<p id="load_en_label" style="display:inline-block;">Load_en:</p>
 <ol id="selectable_load_en" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
 </ol>
-
 <br>
+</div>
+
 <p style="display:inline-block;">D:</p><span style="display:inline-block; width: 38px;"></span>
 <ol id="selectable_d" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
 </ol>
@@ -253,13 +264,34 @@
 
 </div>
 <script>
-for(i = 0; i<num_cycles ;i++)
-{
-	document.getElementById("selectable_reset").innerHTML += "<li class=\"ui-state-default\"></li>";
-	document.getElementById("selectable_preset").innerHTML += "<li class=\"ui-state-default\"></li>";
-	document.getElementById("selectable_load_en").innerHTML += "<li class=\"ui-state-default\"></li>";
-    document.getElementById("selectable_d").innerHTML += "<li class=\"ui-state-default\"></li>";
-}	
+function populateGrid() {
+	document.getElementById("selectable_reset").innerHTML = "";
+	document.getElementById("selectable_preset").innerHTML = "";
+	document.getElementById("selectable_load_en").innerHTML = "";
+	document.getElementById("selectable_d").innerHTML = "";
+	for(i = 0; i<num_cycles ;i++)
+	{
+		document.getElementById("selectable_reset").innerHTML += "<li class=\"ui-state-default\"></li>";
+		document.getElementById("selectable_preset").innerHTML += "<li class=\"ui-state-default\"></li>";
+		document.getElementById("selectable_load_en").innerHTML += "<li class=\"ui-state-default\"></li>";
+	    document.getElementById("selectable_d").innerHTML += "<li class=\"ui-state-default\"></li>";
+	}	
+}
+
+function showHideGrids() {
+	document.getElementById("load_en_container").style.display = "none";
+	document.getElementById("reset_container").style.display = "none";
+	document.getElementById("preset_container").style.display = "none";
+	if (document.getElementById("reset_checkbox").checked) {
+		document.getElementById("reset_container").style.display = "inline";
+	}
+	if (document.getElementById("preset_checkbox").checked){
+		document.getElementById("preset_container").style.display = "inline";
+	}
+	if (document.getElementById("load_enable_checkbox").checked) {
+		document.getElementById("load_en_container").style.display = "inline";
+	}
+}
 	
 function onClickHandler(checkbox){
 	WaveDrom.ProcessAll();
@@ -280,9 +312,7 @@ function rising_edge() {
 }
 </script>
 
-<br>
-<br>
-<br>
+<span style="font-weight:bold">Resulting Timing Diagram:</span>
 <div id="shrinkMe" class="shrink">
 <script type="WaveDrom">
 (function test() {
@@ -471,5 +501,5 @@ function rising_edge() {
 })(5, 16)
 </script>
 </div>
-  <p class="center credit">Demo made by <a href="http://www.johancornelissen.com/">Johan Cornelissen</a></p>
+  <p class="center credit">Made by <a href="http://www.johancornelissen.com/">Johan Cornelissen</a></p>
 </body></html>
