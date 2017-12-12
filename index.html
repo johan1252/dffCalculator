@@ -479,7 +479,14 @@ function rising_edge(index) {
 				  
 			  } else {
 				  //if load enable is 0. Use stored state
-				  qString += '.';		  
+		  		  if (lastType == "") {
+					  //if this is the first signal then set to low
+		  			qString += "l";
+		  			lastType = "l";
+		  		  }
+		  		  else {
+		  	  		qString += ".";	  
+		  		  }	  
 			  }
 		  } else {
 			  //If not using load enable 
@@ -506,6 +513,7 @@ function rising_edge(index) {
 	  else {
 		//use stored state if not on rising edge of clock.
 		if (lastType == "") {
+			//if this is the first signal then set to low
 			qString += "l";
 			lastType = "l";
 		}
