@@ -307,8 +307,13 @@ $('#shrinkMe').click(function(){ // or any other event
  $(this).addClass('shrink');
 });
 
-function rising_edge() {
-	return true;
+function rising_edge(index) {
+	//since period is 2, the rising edge is always on the odd index.
+	//TODO: Need better way to do this in future. Using period and num_cycles.
+	if (!(index % 2 == 0))
+		return true;
+	else
+		return false;
 }
 </script>
 
@@ -431,7 +436,7 @@ function rising_edge() {
 		  } else {
 			qString += ".";
 		  }
-	  } else if (rising_edge()) {
+	  } else if (rising_edge(i)) {
 		  //Synchronous!
 		  
 		  if (document.getElementById("load_enable_checkbox").checked) {
