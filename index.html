@@ -149,7 +149,7 @@
 	var preset_value = new Array;
 	var load_en_value = new Array;
 	var d_value = new Array;
-	var num_cycles = 30;	
+	var num_cycles = 28;	
 		
 	$( function() {
 	  $( "#selectable_reset" ).selectable({
@@ -235,6 +235,7 @@
 <div style="float: middle;">
 <span style="font-weight:bold">Signal Input Defintions:</span> <br>
 <span style="color: red;">Use CTRL+click (and drag) to select multiple regions per signal.</span> <br>
+<span >0ns</span><span style="display:inline-block; width: 370px;"></span><span >27ns</span><br>
 
 <div id="reset_container">
 <p style="display:inline-block;" id="reset_label" >Reset_n:</p><span style="display:inline-block; width: 2px;"></span>
@@ -261,6 +262,7 @@
 <ol id="selectable_d" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
 </ol>
 </div>
+
 
 </div>
 <script>
@@ -308,9 +310,9 @@ $('#shrinkMe').click(function(){ // or any other event
 });
 
 function rising_edge(index) {
-	//since period is 2, the rising edge is always on the odd index.
+	//since period is 4, the rising edge is always on the 4th index.
 	//TODO: Need better way to do this in future. Using period and num_cycles.
-	if (!(index % 2 == 0))
+	if (((index-1) % 4 == 0))
 		return true;
 	else
 		return false;
@@ -323,7 +325,7 @@ function rising_edge(index) {
 (function test() {
   var arr = [];
    
-  arr.push({ name: "clk",  wave: "p..............", period: 2 },);
+  arr.push({ name: "clk",  wave: "p......", period: 4 },);
   
   if (document.getElementById("reset_checkbox").checked) {
 	  var resetString = "";
@@ -490,10 +492,17 @@ function rising_edge(index) {
 		  }
 	  } 
 	  else {
-		//use stored state if not on rising edge of clock. 
-	  	qString += ".";	  
+		//use stored state if not on rising edge of clock.
+		if (lastType == "") {
+			qString += "l";
+			lastType = "l";
+		}
+		else {
+	  		qString += ".";	  
+		}
 	  }
   }
+  
   arr.push({ name: "Q", wave: qString },);
   
   return {signal: 
