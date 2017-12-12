@@ -235,9 +235,10 @@
 <div style="float: middle;">
 <span style="font-weight:bold">Signal Input Defintions:</span> <br>
 <span style="color: red;">Use CTRL+click (and drag) to select multiple regions per signal.</span> <br>
-<span >0ns</span><span style="display:inline-block; width: 370px;"></span><span >27ns</span><br>
+<span style="display:inline-block; width: 65px;"></span><span >0ns</span><span style="display:inline-block; width: 370px;"></span><span >27ns</span><br>
 
 <div id="reset_container">
+<input style="display:inline-block;" type="button" value="Clear" onClick="reset_value=[]; $('#selectable_reset .ui-selected').removeClass('ui-selected'); WaveDrom.ProcessAll();">
 <p style="display:inline-block;" id="reset_label" >Reset_n:</p><span style="display:inline-block; width: 2px;"></span>
 <ol id="selectable_reset" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: right; display:inline-block;">
 </ol>
@@ -245,6 +246,7 @@
 </div>
 
 <div id="preset_container">
+<input style="display:inline-block;" type="button" value="Clear" onClick="preset_value=[]; $('#selectable_preset .ui-selected').removeClass('ui-selected'); WaveDrom.ProcessAll();">
 <p style="display:inline-block;" id="preset_label" >Preset_n:</p>
 <ol id="selectable_preset" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
 </ol>
@@ -252,17 +254,18 @@
 </div>
 
 <div id="load_en_container">
+<input style="display:inline-block;" type="button" value="Clear" onClick="load_en_value=[]; $('#selectable_load_en .ui-selected').removeClass('ui-selected'); WaveDrom.ProcessAll();">
 <p id="load_en_label" style="display:inline-block;">Load_en:</p>
 <ol id="selectable_load_en" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
 </ol>
 <br>
 </div>
 
+<input style="display:inline-block;" type="button" value="Clear" onClick="d_value=[]; $('#selectable_d .ui-selected').removeClass('ui-selected'); WaveDrom.ProcessAll();">
 <p style="display:inline-block;">D:</p><span style="display:inline-block; width: 38px;"></span>
 <ol id="selectable_d" class="selectable_style" style="margin: auto; padding: 0 10px; max-width: 900px; text-align: center; display:inline-block;">
 </ol>
 </div>
-
 
 </div>
 <script>
